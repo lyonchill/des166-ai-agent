@@ -1,0 +1,94 @@
+# Cursor AI Rules for DES166 AI Assistant Project
+
+## Project Context
+This is a Next.js 14 project using TypeScript, React, and Tailwind CSS.
+It's an AI-powered FAQ system for a UW design course (DES166).
+
+## Tech Stack
+- Framework: Next.js 14 (App Router)
+- Language: TypeScript
+- Styling: Tailwind CSS
+- AI: OpenAI GPT-4o-mini
+- Deployment: Vercel
+
+## Code Style Preferences
+- Use TypeScript for all new files
+- Use functional components with hooks
+- Prefer arrow functions
+- Use Tailwind CSS for styling (no CSS modules)
+- Follow Next.js 14 app router conventions
+- Use "use client" directive for client components
+- Keep components small and focused
+
+## File Organization
+- Components go in /components
+- API routes in /app/api
+- Data/constants in /data
+- Utility functions in /lib
+- Types can be colocated or in separate .types.ts files
+
+## Naming Conventions
+- Components: PascalCase (e.g., ChatInterface.tsx)
+- Files: kebab-case for non-components (e.g., qa-data.ts)
+- Functions: camelCase
+- Constants: UPPER_SNAKE_CASE
+- CSS classes: Tailwind utilities only
+
+## Important Notes
+- Always include error handling in API routes
+- Use proper TypeScript types (avoid 'any')
+- Keep API key in environment variables
+- Test components with various screen sizes
+- Consider accessibility (ARIA labels, keyboard nav)
+
+## Common Patterns in This Project
+
+### Adding a new QA item:
+```typescript
+{
+  id: number,
+  category: "application" | "portfolio" | "major" | "grade" | "advising" | "project",
+  question: string,
+  answer: string,
+  links?: string[],
+  keywords?: string[],
+}
+```
+
+### Creating a new component:
+```typescript
+"use client"; // if needed
+
+import { useState } from "react";
+
+export default function ComponentName() {
+  // Component logic
+  return (
+    <div className="tailwind-classes">
+      {/* JSX */}
+    </div>
+  );
+}
+```
+
+### Adding an API route:
+```typescript
+import { NextRequest, NextResponse } from "next/server";
+
+export async function POST(request: NextRequest) {
+  try {
+    // Logic
+    return NextResponse.json({ data });
+  } catch (error) {
+    return NextResponse.json({ error }, { status: 500 });
+  }
+}
+```
+
+## When Generating Code
+- Include proper error handling
+- Add TypeScript types
+- Use Tailwind for styling
+- Add comments for complex logic
+- Consider edge cases
+- Make it responsive by default
