@@ -1,83 +1,119 @@
 "use client";
 
-import { useState } from "react";
-import { qaData, categories } from "@/data/qa-data";
-import { ChevronDown, ChevronUp, ExternalLink } from "lucide-react";
+import { useState, useEffect } from "react";
+
+type QAItem = {
+  id: number;
+  category: string;
+  question: string;
+  answer: string;
+  links?: string[];
+};
+
+type Category = {
+  id: string;
+  name: string;
+  icon: string;
+  description: string;
+  count?: number;
+};
 
 export default function CategoryBrowser() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [expandedQuestion, setExpandedQuestion] = useState<number | null>(null);
+  const [filteredQAs, setFilteredQAs] = useState<QAItem[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const filteredQAs = selectedCategory
-    ? qaData.filter((qa) => qa.category === selectedCategory)
-    : qaData;
+  // Load QAs from API
+  useEffect(() => {
+    setIsLoading(true);
+    const url = selectedCategory
+      ? `/api/qa?category=${selectedCategory}`
+      : "/api/qa?onePerCategory=true";
+
+    fetch(url)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.data) {
+          setFilteredQAs(data.data);
+        }
+        if (data.categories) {
+          setCategories(data.categories);
+        }
+      })
+      .catch((err) => console.error("Failed to load QAs:", err))
+      .finally(() => setIsLoading(false));
+  }, [selectedCategory]);
 
   return (
-    <div className="p-6">
+    <div className="overflow-clip relative w-full min-h-screen flex flex-col">
       {/* Category Pills */}
-      <div className="flex flex-wrap gap-2 mb-6">
-        <button
-          onClick={() => setSelectedCategory(null)}
-          className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-            selectedCategory === null
-              ? "bg-blue-600 text-white"
-              : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
-          }`}
-        >
-          All Topics
-        </button>
-        {categories.map((category) => (
-          <button
-            key={category.id}
-            onClick={() => setSelectedCategory(category.id)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-              selectedCategory === category.id
-                ? "bg-blue-600 text-white"
-                : "bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600"
-            }`}
-          >
-            {category.icon} {category.name}
-          </button>
-        ))}
+      <div className="flex flex-wrap gap-[4px] items-center px-8 md:px-[120px] pt-[100px] pb-6">
+        {categories.map((category) => {
+          const isSelected = selectedCategory === category.id;
+          return (
+            <button
+              key={category.id}
+              onClick={() => {
+                setSelectedCategory(isSelected ? null : category.id);
+                setExpandedQuestion(null);
+              }}
+              className={`flex items-center gap-[4px] h-[34px] px-[14px] py-[6px] rounded-[17px] border border-neutral-200 transition-all ${
+                isSelected
+                  ? "bg-[#160211] text-white"
+                  : "bg-white text-[#160211] hover:bg-gray-50"
+              }`}
+              style={{ 
+                fontFamily: 'var(--font-manrope), sans-serif', 
+                fontWeight: 400,
+                fontSize: '16px'
+              }}
+            >
+              <span>{category.icon}</span>
+              <span>{category.name}</span>
+            </button>
+          );
+        })}
       </div>
 
-      {/* QA List */}
-      <div className="space-y-3 max-h-[500px] overflow-y-auto">
-        {filteredQAs.length === 0 ? (
-          <p className="text-center text-gray-500 dark:text-gray-400 py-8">
-            No questions found in this category.
-          </p>
+      {/* Questions List */}
+      <div className="flex flex-col gap-[14px] px-8 md:px-[120px] pb-[60px]">
+        {isLoading ? (
+          <div className="text-center py-8 text-[#56637e]">載入中...</div>
         ) : (
-          filteredQAs.map((qa) => (
-            <div
+          filteredQAs.map((qa, index) => {
+          const isExpanded = expandedQuestion === qa.id;
+          return (
+            <button
               key={qa.id}
-              className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden"
+              onClick={() => setExpandedQuestion(isExpanded ? null : qa.id)}
+              className={`w-full p-[10px] rounded-[8px] border border-white text-left transition-colors ${
+                isExpanded
+                  ? "bg-[rgba(233,233,233,0.5)]"
+                  : "bg-[rgba(233,233,233,0.5)] hover:bg-[rgba(233,233,233,0.7)]"
+              }`}
             >
-              <button
-                onClick={() =>
-                  setExpandedQuestion(
-                    expandedQuestion === qa.id ? null : qa.id
-                  )
-                }
-                className="w-full px-4 py-3 flex items-center justify-between bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-750 transition-colors"
+              <p 
+                className="font-normal text-[#160211] text-[14px]"
+                style={{ fontFamily: 'var(--font-dm-sans), sans-serif', fontWeight: 400 }}
               >
-                <span className="text-left font-medium text-gray-900 dark:text-white">
-                  {qa.question}
-                </span>
-                {expandedQuestion === qa.id ? (
-                  <ChevronUp className="flex-shrink-0 ml-2 text-gray-500" />
-                ) : (
-                  <ChevronDown className="flex-shrink-0 ml-2 text-gray-500" />
-                )}
-              </button>
-              {expandedQuestion === qa.id && (
-                <div className="px-4 py-3 bg-white dark:bg-gray-900">
-                  <p className="text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
+                {qa.question}
+              </p>
+              {isExpanded && (
+                <div className="mt-3 pt-3 border-t border-[rgba(22,2,17,0.09)]">
+                  <p 
+                    className="text-[#160211] text-[14px] whitespace-pre-wrap mb-3"
+                    style={{ fontFamily: 'var(--font-dm-sans), sans-serif', fontWeight: 400 }}
+                  >
                     {qa.answer}
                   </p>
                   {qa.links && qa.links.length > 0 && (
-                    <div className="mt-3 pt-3 border-t border-gray-200 dark:border-gray-700">
-                      <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
+                    <div className="mt-3 pt-3 border-t border-[rgba(22,2,17,0.09)]">
+                      <p 
+                        className="text-xs font-medium text-[#56637e] mb-2"
+                        style={{ fontFamily: 'var(--font-manrope), sans-serif', fontWeight: 500 }}
+                      >
                         Related Links:
                       </p>
                       {qa.links.map((link, idx) => (
@@ -86,9 +122,9 @@ export default function CategoryBrowser() {
                           href={link}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-1 text-sm text-blue-600 dark:text-blue-400 hover:underline mb-1"
+                          className="flex items-center gap-1 text-xs text-[#008fb4] hover:underline mb-1"
+                          style={{ fontFamily: 'var(--font-manrope), sans-serif', textDecoration: 'underline', textUnderlinePosition: 'from-font' }}
                         >
-                          <ExternalLink size={14} />
                           {link}
                         </a>
                       ))}
@@ -96,9 +132,33 @@ export default function CategoryBrowser() {
                   )}
                 </div>
               )}
-            </div>
-          ))
-        )}
+            </button>
+          );
+        }))}
+      </div>
+
+      {/* Footer - Fixed at bottom */}
+      <div className="fixed bottom-0 left-0 right-0 py-4 bg-transparent z-10">
+        <p 
+          className="font-normal text-[10px] text-center"
+          style={{
+            fontFamily: 'var(--font-manrope), sans-serif',
+            fontWeight: 400,
+            color: '#56637e'
+          }}
+        >
+          <span>This is an AI assistant. For official information, please consult your </span>
+          <a
+            href="https://art.washington.edu/advising"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-[#008fb4]"
+            style={{ textDecoration: 'underline', textUnderlinePosition: 'from-font' }}
+          >
+            academic advisor
+          </a>
+          .
+        </p>
       </div>
     </div>
   );

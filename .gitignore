@@ -29,6 +29,23 @@ yarn-error.log*
 # vercel
 .vercel
 
+# render
+.render
+
+# backup files
+*.backup
+*-small.ts
+
+# data files (large markdown/pdf files)
+*.pdf
+DES166 Questions*.md
+
+# script output files
+scripts/*.txt
+scripts/categorized-*.txt
+scripts/comparison-*.txt
+scripts/markdown-comparison-*.txt
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts

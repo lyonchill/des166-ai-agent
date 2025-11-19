@@ -53,38 +53,73 @@ Remember: You are an assistant to help students, but for important decisions the
       );
     }
 
-    const model = genAI.getGenerativeModel({ 
-      model: "gemini-2.5-flash",
-      generationConfig: {
-        temperature: 0.7,
-        maxOutputTokens: 500,
-      },
-    });
-    
     const prompt = `${systemPrompt}\n\nUser question: ${message}`;
     
-    const result = await model.generateContent(prompt);
-    const response = result.response;
-    let responseMessage = response.text() || 
-      "I'm sorry, I couldn't generate a response. Please try again.";
+    // Try multiple models with fallback - prioritize gemini-2.5-flash
+    const models = ["gemini-2.5-flash", "gemini-1.5-flash", "gemini-1.5-pro"];
+    let lastError: any = null;
     
-    // Remove Markdown formatting (bold markers **)
-    responseMessage = responseMessage.replace(/\*\*(.*?)\*\*/g, '$1');
+    for (const modelName of models) {
+      try {
+        const model = genAI.getGenerativeModel({ 
+          model: modelName,
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 500,
+          },
+        });
+        
+        const result = await model.generateContent(prompt);
+        const response = result.response;
+        let responseMessage = response.text() || 
+          "I'm sorry, I couldn't generate a response. Please try again.";
+        
+        // Remove Markdown formatting (bold markers **)
+        responseMessage = responseMessage.replace(/\*\*(.*?)\*\*/g, '$1');
 
-    return NextResponse.json({
-      message: responseMessage,
-      sources: sources.length > 0 ? sources : undefined,
-    });
+        return NextResponse.json({
+          message: responseMessage,
+          sources: sources.length > 0 ? sources : undefined,
+        });
+      } catch (error: any) {
+        lastError = error;
+        // If it's a 503 or overload error, try next model
+        if (error?.message?.includes("503") || error?.message?.includes("overloaded")) {
+          console.warn(`Model ${modelName} is overloaded, trying next model...`);
+          continue;
+        }
+        // For other errors, throw immediately
+        throw error;
+      }
+    }
+    
+    // If all models failed, throw the last error
+    throw lastError || new Error("All models are currently unavailable");
 
   } catch (error: any) {
     console.error("API Error:", error);
-    const errorMessage = error?.message || "Internal server error";
+    
+    // Provide user-friendly error messages
+    let errorMessage = "Sorry, I'm having trouble connecting to the AI service right now.";
+    let statusCode = 500;
+    
+    if (error?.message?.includes("503") || error?.message?.includes("overloaded")) {
+      errorMessage = "The AI service is currently overloaded. Please try again in a few moments.";
+      statusCode = 503;
+    } else if (error?.message?.includes("API key") || error?.message?.includes("authentication")) {
+      errorMessage = "API authentication failed. Please check your API key configuration.";
+      statusCode = 401;
+    } else if (error?.message?.includes("quota") || error?.message?.includes("rate limit")) {
+      errorMessage = "API rate limit exceeded. Please try again later.";
+      statusCode = 429;
+    }
+    
     return NextResponse.json(
       { 
         error: errorMessage,
-        details: process.env.NODE_ENV === "development" ? error?.stack : undefined
+        details: process.env.NODE_ENV === "development" ? error?.message : undefined
       },
-      { status: 500 }
+      { status: statusCode }
     );
   }
 }
