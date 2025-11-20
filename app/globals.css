@@ -37,3 +37,15 @@ body {
     text-wrap: balance;
   }
 }
+
+/* Responsive FAQ card widths */
+@media (min-width: 640px) {
+  button[data-width="220"] {
+    width: 220px !important;
+    max-width: 220px !important;
+  }
+  button[data-width="240"] {
+    width: 240px !important;
+    max-width: 240px !important;
+  }
+}

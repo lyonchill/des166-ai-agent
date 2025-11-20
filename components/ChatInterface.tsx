@@ -109,10 +109,10 @@ export default function ChatInterface() {
       {/* Title - Moves to top when messages exist */}
       {hasMessages && (
         <div 
-          className="flex items-center justify-center gap-[5px] pt-[80px] pb-6 transition-all duration-300"
+          className="flex items-center justify-center gap-[5px] pt-[60px] sm:pt-[80px] pb-4 sm:pb-6 transition-all duration-300 px-4"
         >
           <h2 
-            className="font-medium text-[#160211] text-[32px] text-center whitespace-nowrap"
+            className="font-medium text-[#160211] text-[24px] sm:text-[32px] text-center whitespace-nowrap"
             style={{ fontFamily: 'var(--font-manrope), sans-serif', fontWeight: 500 }}
           >
             Ask Me About DES 166
@@ -122,8 +122,8 @@ export default function ChatInterface() {
 
       {/* Messages Area - Only visible when messages exist */}
       {hasMessages && (
-        <div className="flex-1 overflow-y-auto px-8 pb-[60px]">
-          <div className="flex flex-col gap-4 max-w-[760px] mx-auto pt-4">
+        <div className="flex-1 overflow-y-auto px-4 sm:px-8 pb-[100px] sm:pb-[60px]">
+          <div className="flex flex-col gap-3 sm:gap-4 max-w-[760px] mx-auto pt-4">
             {messages.map((message, index) => (
               <div
                 key={index}
@@ -132,7 +132,7 @@ export default function ChatInterface() {
                 }`}
               >
                 <div
-                  className={`max-w-[80%] rounded-[8px] px-4 py-3 ${
+                  className={`max-w-[85%] sm:max-w-[80%] rounded-[8px] px-3 sm:px-4 py-2 sm:py-3 ${
                     message.role === "user"
                       ? "bg-[#160211] text-white"
                       : "bg-[rgba(255,255,255,0.5)] border border-white text-[#160211]"
@@ -145,7 +145,7 @@ export default function ChatInterface() {
                   }}
                 >
                   <p 
-                    className="whitespace-pre-wrap text-[14px]"
+                    className="whitespace-pre-wrap text-[13px] sm:text-[14px] leading-relaxed"
                     style={{ 
                       fontFamily: message.role === "user" 
                         ? 'var(--font-manrope), sans-serif' 
@@ -158,7 +158,7 @@ export default function ChatInterface() {
                   {message.sources && message.sources.length > 0 && (
                     <div className="mt-2 pt-2 border-t border-[rgba(22,2,17,0.09)]">
                       <p 
-                        className="text-xs opacity-75 mb-1"
+                        className="text-[10px] sm:text-xs opacity-75 mb-1"
                         style={{ fontFamily: 'var(--font-manrope), sans-serif', fontWeight: 400 }}
                       >
                         Sources:
@@ -169,7 +169,7 @@ export default function ChatInterface() {
                           href={source}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-xs underline block opacity-75 hover:opacity-100 text-[#008fb4]"
+                          className="text-[10px] sm:text-xs underline block opacity-75 hover:opacity-100 text-[#008fb4] break-all"
                           style={{ fontFamily: 'var(--font-manrope), sans-serif', fontWeight: 400 }}
                         >
                           {source}
@@ -182,7 +182,7 @@ export default function ChatInterface() {
             ))}
             {isLoading && (
               <div className="flex justify-start">
-                <div className="bg-[rgba(255,255,255,0.5)] border border-white rounded-[8px] px-4 py-3">
+                <div className="bg-[rgba(255,255,255,0.5)] border border-white rounded-[8px] px-3 sm:px-4 py-2 sm:py-3">
                   <Loader2 className="animate-spin text-[#160211]" size={16} />
                 </div>
               </div>
@@ -193,15 +193,15 @@ export default function ChatInterface() {
       )}
 
       {/* Input Container - Centered vertically when no messages */}
-      <div className={`${hasMessages ? 'fixed bottom-[40px] left-0 right-0 pb-4 pt-8' : 'flex-1 flex items-center justify-center'}`} style={hasMessages ? {
+      <div className={`${hasMessages ? 'fixed bottom-[70px] sm:bottom-[40px] left-0 right-0 pb-4 pt-4 sm:pt-8 px-4 sm:px-0' : 'flex-1 flex items-center justify-center'}`} style={hasMessages ? {
         background: 'linear-gradient(to top, rgba(240, 247, 232, 0.95) 0%, rgba(232, 245, 240, 0.9) 50%, transparent 100%)'
       } : {}}>
-        <div className={`flex flex-col gap-[32px] max-w-[760px] mx-auto w-full px-8 ${!hasMessages ? 'py-8' : ''}`}>
+        <div className={`flex flex-col gap-[24px] sm:gap-[32px] max-w-[760px] mx-auto w-full px-4 sm:px-8 ${!hasMessages ? 'py-6 sm:py-8' : ''}`}>
           {/* Title - Only visible when no messages */}
           {!hasMessages && (
-            <div className="flex items-center justify-center gap-[5px]">
+            <div className="flex items-center justify-center gap-[5px] px-4">
               <h2 
-                className="font-medium text-[#160211] text-[32px] text-center whitespace-nowrap"
+                className="font-medium text-[#160211] text-[24px] sm:text-[32px] text-center whitespace-nowrap"
                 style={{ fontFamily: 'var(--font-manrope), sans-serif', fontWeight: 500 }}
               >
                 Ask Me About DES 166
@@ -210,26 +210,26 @@ export default function ChatInterface() {
           )}
           {/* Search Bar */}
           <form onSubmit={handleSubmit} className="w-full">
-            <div className="bg-white border border-[rgba(22,2,17,0.09)] flex items-center justify-between pl-[24px] pr-[12px] py-[10px] rounded-[32px] w-full">
+            <div className="bg-white border border-[rgba(22,2,17,0.09)] flex items-center justify-between pl-[16px] sm:pl-[24px] pr-[8px] sm:pr-[12px] py-[8px] sm:py-[10px] rounded-[32px] w-full">
               <input
                 type="text"
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={handleKeyPress}
                 placeholder="Ask a question..."
-                className="flex-1 bg-transparent text-[#56637e] text-[14px] focus:outline-none"
+                className="flex-1 bg-transparent text-[#56637e] text-[13px] sm:text-[14px] focus:outline-none"
                 style={{ fontFamily: 'var(--font-dm-sans), sans-serif', fontWeight: 400 }}
                 disabled={isLoading}
               />
               <button
                 type="submit"
                 disabled={isLoading || !input.trim()}
-                className="w-8 h-8 rounded-[32px] bg-[#160211] flex items-center justify-center hover:bg-[#2a1a2a] transition-colors flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-7 h-7 sm:w-8 sm:h-8 rounded-[32px] bg-[#160211] flex items-center justify-center hover:bg-[#2a1a2a] transition-colors flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isLoading ? (
-                  <Loader2 size={14} className="text-white animate-spin" />
+                  <Loader2 size={12} className="sm:w-[14px] sm:h-[14px] text-white animate-spin" />
                 ) : (
-                  <Send size={14} className="text-white" />
+                  <Send size={12} className="sm:w-[14px] sm:h-[14px] text-white" />
                 )}
               </button>
             </div>
@@ -237,16 +237,15 @@ export default function ChatInterface() {
 
           {/* Frequently Asked Questions Section - Only visible when no messages */}
           {!hasMessages && (
-            <div className="flex flex-col gap-[14px]">
+            <div className="flex flex-col gap-[12px] sm:gap-[14px]">
               <p 
-                className="font-medium text-[#56637e] text-[12px] w-full"
+                className="font-medium text-[#56637e] text-[11px] sm:text-[12px] w-full"
                 style={{ fontFamily: 'var(--font-manrope), sans-serif', fontWeight: 500 }}
               >
                 Frequently Asked Questions
               </p>
-              <div className="flex gap-[14px] justify-center">
+              <div className="flex flex-col sm:flex-row gap-[10px] sm:gap-[14px] justify-center">
                 {featuredQuestions.map((qa, index) => {
-                  // Shorter widths to fit three cards side by side
                   const widths = [220, 240, 220];
                   return (
                     <button
@@ -298,11 +297,15 @@ export default function ChatInterface() {
                           setIsLoading(false);
                         }
                       }}
-                      className="bg-[rgba(255,255,255,0.5)] border border-white flex items-center justify-center p-[10px] rounded-[8px] hover:bg-[rgba(255,255,255,0.8)] transition-colors flex-shrink-0"
-                      style={{ width: `${widths[index]}px` }}
+                      className="bg-[rgba(255,255,255,0.5)] border border-white flex items-center justify-center p-[10px] rounded-[8px] hover:bg-[rgba(255,255,255,0.8)] transition-colors w-full sm:w-auto sm:flex-shrink-0"
+                      style={{ 
+                        width: `100%`,
+                        maxWidth: '100%'
+                      }}
+                      data-width={widths[index]}
                     >
                       <p 
-                        className="font-normal text-[#160211] text-[14px] text-left flex-1 line-clamp-2"
+                        className="font-normal text-[#160211] text-[13px] sm:text-[14px] text-left flex-1 line-clamp-2"
                         style={{ fontFamily: 'var(--font-manrope), sans-serif', fontWeight: 400 }}
                       >
                         {qa.question}
@@ -317,9 +320,9 @@ export default function ChatInterface() {
       </div>
 
       {/* Footer - Fixed at bottom */}
-      <div className="fixed bottom-0 left-0 right-0 py-4 bg-transparent z-10">
+      <div className="fixed bottom-0 left-0 right-0 py-3 sm:py-4 bg-transparent z-10 px-4">
         <p 
-          className="font-normal text-[10px] text-center"
+          className="font-normal text-[9px] sm:text-[10px] text-center leading-tight"
           style={{
             fontFamily: 'var(--font-manrope), sans-serif',
             fontWeight: 400,

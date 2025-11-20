@@ -22,14 +22,14 @@ export default function Home() {
       }}
     >
       {/* Navigation Tabs - Positioned absolutely at top */}
-      <div className="absolute top-[24px] left-1/2 transform -translate-x-1/2 flex gap-[36px] items-start z-10">
+      <div className="absolute top-[16px] sm:top-[24px] left-1/2 transform -translate-x-1/2 flex gap-[20px] sm:gap-[36px] items-start z-10">
         <button
           onClick={() => setViewMode("chat")}
           className="flex flex-col items-end"
           style={{ width: viewMode === "chat" ? "29px" : "auto" }}
         >
           <p 
-            className={`font-semibold text-[12px] text-center text-[#160211]`}
+            className={`font-semibold text-[11px] sm:text-[12px] text-center text-[#160211]`}
             style={{ fontFamily: 'var(--font-manrope), sans-serif', fontWeight: 600 }}
           >
             Chat
@@ -44,7 +44,7 @@ export default function Home() {
           style={{ width: viewMode === "browse" ? "64px" : "auto" }}
         >
           <p 
-            className={`font-semibold text-[12px] text-center text-[#160211]`}
+            className={`font-semibold text-[11px] sm:text-[12px] text-center text-[#160211]`}
             style={{ fontFamily: 'var(--font-manrope), sans-serif', fontWeight: 600 }}
           >
             FAQ Topics

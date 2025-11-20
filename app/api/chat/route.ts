@@ -64,23 +64,23 @@ Remember: You are an assistant to help students, but for important decisions the
         const model = genAI.getGenerativeModel({ 
           model: modelName,
           generationConfig: {
-            temperature: 0.7,
+      temperature: 0.7,
             maxOutputTokens: 500,
           },
-        });
-        
+    });
+
         const result = await model.generateContent(prompt);
         const response = result.response;
         let responseMessage = response.text() || 
-          "I'm sorry, I couldn't generate a response. Please try again.";
+      "I'm sorry, I couldn't generate a response. Please try again.";
         
         // Remove Markdown formatting (bold markers **)
         responseMessage = responseMessage.replace(/\*\*(.*?)\*\*/g, '$1');
 
-        return NextResponse.json({
-          message: responseMessage,
-          sources: sources.length > 0 ? sources : undefined,
-        });
+    return NextResponse.json({
+      message: responseMessage,
+      sources: sources.length > 0 ? sources : undefined,
+    });
       } catch (error: any) {
         lastError = error;
         // If it's a 503 or overload error, try next model
