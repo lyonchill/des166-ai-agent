@@ -25,10 +25,11 @@ export async function POST(request: NextRequest) {
       .filter((link, index, self) => self.indexOf(link) === index); // Remove duplicates
 
     // Extract file links from course files
+    // 優先使用 externalLink，如果沒有則使用 filePath
     const fileLinks = fileSources.map((result) => ({
-      type: "file" as const,
+      type: result.file.externalLink ? ("link" as const) : ("file" as const),
       title: result.file.title,
-      url: result.file.filePath,
+      url: result.file.externalLink || result.file.filePath,
       pageNumber: result.chunks[0]?.pageNumber,
     }));
 
@@ -76,18 +77,43 @@ Remember: You are an assistant to help students, but for important decisions the
         const model = genAI.getGenerativeModel({ 
           model: modelName,
           generationConfig: {
-      temperature: 0.7,
-            maxOutputTokens: 500,
+            temperature: 0.7,
+            maxOutputTokens: 2000, // 增加到2000以支持完整回答
+            topP: 0.95,
+            topK: 40,
           },
     });
 
         const result = await model.generateContent(prompt);
         const response = result.response;
-        let responseMessage = response.text() || 
-      "I'm sorry, I couldn't generate a response. Please try again.";
+        
+        // 獲取完整響應文本
+        let responseMessage = "";
+        try {
+          responseMessage = response.text() || "";
+        } catch (error) {
+          console.error("Error extracting response text:", error);
+          // 嘗試從candidates獲取
+          const candidates = response.candidates;
+          if (candidates && candidates.length > 0 && candidates[0].content) {
+            responseMessage = candidates[0].content.parts
+              .map((part: any) => part.text || "")
+              .join("");
+          }
+        }
+        
+        // 如果仍然沒有內容，使用默認消息
+        if (!responseMessage || responseMessage.trim().length === 0) {
+          responseMessage = "I'm sorry, I couldn't generate a response. Please try again.";
+        }
         
         // Remove Markdown formatting (bold markers **)
         responseMessage = responseMessage.replace(/\*\*(.*?)\*\*/g, '$1');
+        
+        // 確保響應不是空的或只有標題
+        if (responseMessage.trim().length < 10) {
+          responseMessage = "I'm sorry, I couldn't generate a complete response. Please try rephrasing your question.";
+        }
 
         // Log interaction (async, don't block response)
         const clientIp = request.headers.get("x-forwarded-for")?.split(",")[0] || 

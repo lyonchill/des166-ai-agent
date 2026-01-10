@@ -10,6 +10,7 @@ export type CourseFile = {
   fileType: "pdf" | "docx" | "markdown";
   chunks?: TextChunk[]; // 用於RAG的文本塊
   fileSize?: number; // 文件大小（字節）
+  externalLink?: string; // 外部連結（如 Google Sheets），優先於 filePath 顯示
 };
 
 // 課程文件數據庫
@@ -23,6 +24,7 @@ export const courseFiles: CourseFile[] = [
     uploadDate: new Date().toISOString(),
     fileType: "markdown",
     fileSize: 7759, // ~7.6KB - Markdown文件比PDF小很多
+    externalLink: "https://docs.google.com/spreadsheets/d/1ZIcKlBTK8dWPyjr3hIGkwarnV3QEMc9WaLNo9J29Dn8/edit?gid=1474911506#gid=1474911506", // Google Sheets 連結
     // 使用Markdown解析器自動生成的chunks，結構清晰且精準
     chunks: [
       {
