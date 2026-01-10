@@ -1,0 +1,34 @@
+name: Backup Interactions
+
+on:
+  workflow_dispatch:
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Create backups directory
+        run: mkdir -p backups
+      
+      - name: Download interactions
+        env:
+          RENDER_URL: ${{ secrets.RENDER_URL }}
+        run: |
+          if [ -z "$RENDER_URL" ]; then
+            echo "RENDER_URL not set"
+            exit 0
+          fi
+          curl -f "$RENDER_URL/api/interactions/export" -o "backups/interactions-$(date +%Y-%m-%d).xlsx" || echo "Download failed"
+      
+      - name: Commit backup
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add backups/ || exit 0
+          git commit -m "Backup $(date +%Y-%m-%d)" || exit 0
+          git push || exit 0
+
