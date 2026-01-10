@@ -157,4 +157,3 @@ export async function searchInteractions(query: string): Promise<InteractionReco
     );
   });
 }
-

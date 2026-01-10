@@ -134,4 +134,3 @@ if (process.env.NODE_ENV === "production" && process.env.ENABLE_LOGGING !== "fal
 1. 部署到Render後，訪問：`https://your-app.onrender.com/admin/interactions`
 2. 定期導出Excel文件
 3. 考慮設置自動備份
-

@@ -74,4 +74,3 @@
 - "什麼時候有critique？"
 
 AI應該能夠從chunks中找到答案！
-

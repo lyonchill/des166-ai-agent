@@ -45,4 +45,3 @@ git push origin main
 - Free Plan會休眠，備份可能失敗
 - 建議使用Starter Plan（$7/月）確保應用持續運行
 - 或定期手動訪問應用URL喚醒它
-

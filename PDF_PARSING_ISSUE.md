@@ -119,4 +119,3 @@ NODE_OPTIONS="--max-old-space-size=4096" npx tsx scripts/parse-and-add-file.ts "
 - ❌ 無法搜索PDF內容
 
 **這對課程日曆來說可能足夠**，因為學生通常需要查看完整的日曆，而不是讓AI讀取所有內容。
-

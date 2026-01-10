@@ -103,4 +103,3 @@ ls -la backups/
 2. 確認 `backups/` 目錄中有Excel文件
 3. 定期檢查備份是否正常運行
 4. 可以下載Excel文件進行數據分析
-

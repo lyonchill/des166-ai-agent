@@ -98,4 +98,3 @@ NEXT_PUBLIC_ADMIN_PASSWORD=your-secure-password
 ```
 NEXT_PUBLIC_ADMIN_PASSWORD=your-secure-password
 ```
-

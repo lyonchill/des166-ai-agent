@@ -22,4 +22,3 @@ You can also manually trigger the backup:
 
 - `interactions-YYYY-MM-DD.xlsx` - Daily backup files
 - Each file contains all interactions up to that date
-
