@@ -157,7 +157,7 @@ export default function CategoryBrowser() {
           >
             academic advisor
           </a>
-          .
+          <span> and the team of DESIGN 166 instructors.</span>
         </p>
       </div>
     </div>

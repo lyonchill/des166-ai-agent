@@ -389,7 +389,7 @@ export default function ChatInterface() {
           >
             academic advisor
           </a>
-          .
+          <span> and the team of DESIGN 166 instructors.</span>
         </p>
       </div>
     </div>
