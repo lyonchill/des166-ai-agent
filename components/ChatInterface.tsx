@@ -107,7 +107,7 @@ export default function ChatInterface() {
   const hasMessages = messages.length > 0;
 
   return (
-    <div className="overflow-clip relative w-full min-h-screen flex flex-col">
+    <div className="relative w-full h-screen flex flex-col overflow-hidden">
       {/* Title - Moves to top when messages exist */}
       {hasMessages && (
         <div 
@@ -124,7 +124,7 @@ export default function ChatInterface() {
 
       {/* Messages Area - Only visible when messages exist */}
       {hasMessages && (
-        <div className="flex-1 overflow-y-auto px-4 sm:px-8 pb-[100px] sm:pb-[60px]">
+        <div className="flex-1 overflow-y-auto px-4 sm:px-8 pb-[100px] sm:pb-[60px] overscroll-contain">
           <div className="flex flex-col gap-3 sm:gap-4 max-w-[760px] mx-auto pt-4">
             {messages.map((message, index) => (
               <div
@@ -242,7 +242,7 @@ export default function ChatInterface() {
       )}
 
       {/* Input Container - Centered vertically when no messages */}
-      <div className={`${hasMessages ? 'fixed bottom-[70px] sm:bottom-[40px] left-0 right-0 pb-4 pt-4 sm:pt-8 px-4 sm:px-0' : 'flex-1 flex items-center justify-center'}`} style={hasMessages ? {
+      <div className={`${hasMessages ? 'fixed bottom-[70px] sm:bottom-[40px] left-0 right-0 pb-4 pt-4 sm:pt-8 px-4 sm:px-0 z-10' : 'flex-1 flex items-center justify-center overflow-y-auto'}`} style={hasMessages ? {
         background: 'linear-gradient(to top, rgba(240, 247, 232, 0.95) 0%, rgba(232, 245, 240, 0.9) 50%, transparent 100%)'
       } : {}}>
         <div className={`flex flex-col gap-[24px] sm:gap-[32px] max-w-[760px] mx-auto w-full px-4 sm:px-8 ${!hasMessages ? 'py-6 sm:py-8' : ''}`}>

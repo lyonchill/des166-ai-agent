@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { buildRAGContext } from "@/lib/rag";
+import { logInteraction, generateSessionId } from "@/lib/interaction-logger";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
@@ -86,6 +87,27 @@ Remember: You are an assistant to help students, but for important decisions the
         
         // Remove Markdown formatting (bold markers **)
         responseMessage = responseMessage.replace(/\*\*(.*?)\*\*/g, '$1');
+
+        // Log interaction (async, don't block response)
+        const clientIp = request.headers.get("x-forwarded-for")?.split(",")[0] || 
+                        request.headers.get("x-real-ip") || 
+                        "unknown";
+        const userAgent = request.headers.get("user-agent") || "unknown";
+        const sessionId = generateSessionId(clientIp, userAgent);
+        
+        logInteraction(message, responseMessage, sessionId, {
+          sources,
+          fileSources: fileSources.map((f) => ({
+            title: f.file.title,
+            path: f.file.filePath,
+            pageNumber: f.chunks[0]?.pageNumber,
+          })),
+          model: modelName,
+          relevantQAs: qaSources.map((qa) => qa.id),
+        }).catch((err) => {
+          // 記錄失敗不應影響響應
+          console.error("Failed to log interaction:", err);
+        });
 
     return NextResponse.json({
       message: responseMessage,

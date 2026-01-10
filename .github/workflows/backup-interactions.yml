@@ -1,0 +1,55 @@
+name: Backup Student Interactions
+
+on:
+  schedule:
+    # 每天UTC時間凌晨2點運行（台灣時間上午10點）
+    - cron: '0 2 * * *'
+  workflow_dispatch: # 允許手動觸發
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # 允許寫入倉庫
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      
+      - name: Create backups directory
+        run: mkdir -p backups
+      
+      - name: Download interactions from Render
+        env:
+          RENDER_URL: ${{ secrets.RENDER_URL }}
+        run: |
+          if [ -z "$RENDER_URL" ]; then
+            echo "⚠️ RENDER_URL secret not set. Skipping backup."
+            echo "To enable automatic backups, add RENDER_URL secret in GitHub repository settings."
+            exit 0
+          fi
+          
+          # 嘗試下載互動記錄
+          curl -f "$RENDER_URL/api/interactions/export" \
+               -o "backups/interactions-$(date +%Y-%m-%d).xlsx" \
+               || echo "⚠️ Failed to download interactions. App may be sleeping or URL incorrect."
+      
+      - name: Commit and push backup
+        if: success()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          
+          # 檢查是否有新文件
+          if [ -n "$(git status --porcelain backups/)" ]; then
+            git add backups/
+            git commit -m "Auto-backup interactions $(date +%Y-%m-%d)" || exit 0
+            git push https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git HEAD:main || echo "⚠️ Failed to push."
+          else
+            echo "No new interactions to backup."
+          fi
+
