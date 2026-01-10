@@ -207,29 +207,34 @@ export default function ChatInterface() {
                               href={source.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-[10px] sm:text-xs underline block opacity-75 hover:opacity-100 text-[#008fb4] break-all"
+                              className="text-[10px] sm:text-xs underline block opacity-75 hover:opacity-100 text-[#008fb4] break-all flex items-center gap-1"
                               style={{ fontFamily: 'var(--font-manrope), sans-serif', fontWeight: 400 }}
                             >
-                              {source.url}
+                              <span>🔗</span>
+                              <span>{source.title || source.url}</span>
                             </a>
                           );
                         }
                         return null;
                       })}
-                      {message.fileSources && message.fileSources.map((file, idx) => (
-                        <a
-                          key={`file-${idx}`}
-                          href={file.path}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-[10px] sm:text-xs underline block opacity-75 hover:opacity-100 text-[#008fb4] break-all flex items-center gap-1"
-                          style={{ fontFamily: 'var(--font-manrope), sans-serif', fontWeight: 400 }}
-                        >
-                          <span>📄</span>
-                          <span>{file.title}</span>
-                          {file.pageNumber && <span className="opacity-60">(Page {file.pageNumber})</span>}
-                        </a>
-                      ))}
+                      {message.fileSources && message.fileSources.map((file, idx) => {
+                        // 判斷是否是外部連結（Google Sheets 等）
+                        const isExternalLink = file.path && (file.path.startsWith('http://') || file.path.startsWith('https://'));
+                        return (
+                          <a
+                            key={`file-${idx}`}
+                            href={file.path}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[10px] sm:text-xs underline block opacity-75 hover:opacity-100 text-[#008fb4] break-all flex items-center gap-1"
+                            style={{ fontFamily: 'var(--font-manrope), sans-serif', fontWeight: 400 }}
+                          >
+                            <span>{isExternalLink ? '🔗' : '📄'}</span>
+                            <span>{file.title}</span>
+                            {file.pageNumber && !isExternalLink && <span className="opacity-60">(Page {file.pageNumber})</span>}
+                          </a>
+                        );
+                      })}
                     </div>
                   ) : null}
                 </div>

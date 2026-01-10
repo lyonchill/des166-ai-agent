@@ -126,7 +126,7 @@ Remember: You are an assistant to help students, but for important decisions the
           sources,
           fileSources: fileSources.map((f) => ({
             title: f.file.title,
-            path: f.file.filePath,
+            path: f.file.externalLink || f.file.filePath, // 使用 externalLink 如果存在
             pageNumber: f.chunks[0]?.pageNumber,
           })),
           model: modelName,
@@ -141,7 +141,7 @@ Remember: You are an assistant to help students, but for important decisions the
       sources: sources.length > 0 ? sources : undefined,
       fileSources: fileSources.length > 0 ? fileSources.map((f) => ({
         title: f.file.title,
-        path: f.file.filePath,
+        path: f.file.externalLink || f.file.filePath, // 使用 externalLink 如果存在
         pageNumber: f.chunks[0]?.pageNumber,
       })) : undefined,
     });
