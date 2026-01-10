@@ -6,7 +6,8 @@ import { Send, Loader2 } from "lucide-react";
 type Message = {
   role: "user" | "assistant";
   content: string;
-  sources?: string[];
+  sources?: (string | { type: "file" | "link"; url?: string; title?: string; pageNumber?: number })[];
+  fileSources?: { title: string; path: string; pageNumber?: number }[];
 };
 
 type QAItem = {
@@ -69,6 +70,7 @@ export default function ChatInterface() {
             role: "assistant",
             content: data.message,
             sources: data.sources,
+            fileSources: data.fileSources,
           },
         ]);
       } else {
@@ -155,7 +157,7 @@ export default function ChatInterface() {
                   >
                     {message.content}
                   </p>
-                  {message.sources && message.sources.length > 0 && (
+                  {(message.sources && message.sources.length > 0) || (message.fileSources && message.fileSources.length > 0) ? (
                     <div className="mt-2 pt-2 border-t border-[rgba(22,2,17,0.09)]">
                       <p 
                         className="text-[10px] sm:text-xs opacity-75 mb-1"
@@ -163,20 +165,67 @@ export default function ChatInterface() {
                       >
                         Sources:
                       </p>
-                      {message.sources.map((source, idx) => (
+                      {message.sources && message.sources.map((source, idx) => {
+                        if (typeof source === "string") {
+                          return (
+                            <a
+                              key={idx}
+                              href={source}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[10px] sm:text-xs underline block opacity-75 hover:opacity-100 text-[#008fb4] break-all"
+                              style={{ fontFamily: 'var(--font-manrope), sans-serif', fontWeight: 400 }}
+                            >
+                              {source}
+                            </a>
+                          );
+                        } else if (source.type === "file") {
+                          return (
+                            <a
+                              key={idx}
+                              href={source.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[10px] sm:text-xs underline block opacity-75 hover:opacity-100 text-[#008fb4] break-all flex items-center gap-1"
+                              style={{ fontFamily: 'var(--font-manrope), sans-serif', fontWeight: 400 }}
+                            >
+                              <span>📄</span>
+                              <span>{source.title || source.url}</span>
+                              {source.pageNumber && <span className="opacity-60">(Page {source.pageNumber})</span>}
+                            </a>
+                          );
+                        } else if (source.type === "link" && source.url) {
+                          return (
+                            <a
+                              key={idx}
+                              href={source.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-[10px] sm:text-xs underline block opacity-75 hover:opacity-100 text-[#008fb4] break-all"
+                              style={{ fontFamily: 'var(--font-manrope), sans-serif', fontWeight: 400 }}
+                            >
+                              {source.url}
+                            </a>
+                          );
+                        }
+                        return null;
+                      })}
+                      {message.fileSources && message.fileSources.map((file, idx) => (
                         <a
-                          key={idx}
-                          href={source}
+                          key={`file-${idx}`}
+                          href={file.path}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-[10px] sm:text-xs underline block opacity-75 hover:opacity-100 text-[#008fb4] break-all"
+                          className="text-[10px] sm:text-xs underline block opacity-75 hover:opacity-100 text-[#008fb4] break-all flex items-center gap-1"
                           style={{ fontFamily: 'var(--font-manrope), sans-serif', fontWeight: 400 }}
                         >
-                          {source}
+                          <span>📄</span>
+                          <span>{file.title}</span>
+                          {file.pageNumber && <span className="opacity-60">(Page {file.pageNumber})</span>}
                         </a>
                       ))}
                     </div>
-                  )}
+                  ) : null}
                 </div>
               </div>
             ))}
@@ -272,6 +321,7 @@ export default function ChatInterface() {
                                 role: "assistant",
                                 content: data.message,
                                 sources: data.sources,
+                                fileSources: data.fileSources,
                               },
                             ]);
                           } else {

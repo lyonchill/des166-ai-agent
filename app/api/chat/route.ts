@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { searchRelevantQAs } from "@/lib/rag";
+import { buildRAGContext } from "@/lib/rag";
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
 
@@ -15,33 +15,43 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Search for relevant QAs from the knowledge base
-    const relevantQAs = searchRelevantQAs(message);
-
-    // Build context from relevant QAs
-    const context = relevantQAs
-      .map((qa) => `Q: ${qa.question}\nA: ${qa.answer}`)
-      .join("\n\n");
+    // Search for relevant QAs and course files
+    const { context, qaSources, fileSources } = buildRAGContext(message, 5, 3);
 
     // Extract links from relevant QAs
-    const sources = relevantQAs
+    const qaLinks = qaSources
       .flatMap((qa) => qa.links || [])
       .filter((link, index, self) => self.indexOf(link) === index); // Remove duplicates
 
-    // Create the system prompt
-    const systemPrompt = `You are a helpful AI assistant for the UW DES166 course. Your role is to answer student questions based on the course's FAQ information.
+    // Extract file links from course files
+    const fileLinks = fileSources.map((result) => ({
+      type: "file" as const,
+      title: result.file.title,
+      url: result.file.filePath,
+      pageNumber: result.chunks[0]?.pageNumber,
+    }));
 
-Based on the following QA records, answer the student's question:
+    // Combine all sources
+    const sources = [
+      ...qaLinks.map((link) => ({ type: "link" as const, url: link })),
+      ...fileLinks,
+    ];
+
+    // Create the system prompt
+    const systemPrompt = `You are a helpful AI assistant for the UW DES166 course. Your role is to answer student questions based on the course's FAQ information and course materials.
+
+Based on the following information (including QA records and course file excerpts), answer the student's question:
 
 ${context}
 
 Guidelines:
 1. Be friendly, clear, and well-organized in your responses
 2. If the information is uncertain or not in the knowledge base, suggest contacting an academic advisor
-3. Provide relevant links when available
-4. If the question is outside the scope of the available information, be honest about it
-5. Keep responses concise but informative
-6. Do not use Markdown formatting (no **bold** or other markdown syntax) - use plain text only
+3. Provide relevant links and file references when available
+4. When referencing course files, mention the file name and page number if available
+5. If the question is outside the scope of the available information, be honest about it
+6. Keep responses concise but informative
+7. Do not use Markdown formatting (no **bold** or other markdown syntax) - use plain text only
 
 Remember: You are an assistant to help students, but for important decisions they should always consult with their academic advisor.`;
 
@@ -80,6 +90,11 @@ Remember: You are an assistant to help students, but for important decisions the
     return NextResponse.json({
       message: responseMessage,
       sources: sources.length > 0 ? sources : undefined,
+      fileSources: fileSources.length > 0 ? fileSources.map((f) => ({
+        title: f.file.title,
+        path: f.file.filePath,
+        pageNumber: f.chunks[0]?.pageNumber,
+      })) : undefined,
     });
       } catch (error: any) {
         lastError = error;

@@ -1,4 +1,5 @@
 import { qaData, QAItem } from "@/data/qa-data";
+import { searchCourseFiles as searchFiles, formatFileSearchResults, FileSearchResult } from "@/lib/file-search";
 
 /**
  * Simple keyword-based search for relevant QAs
@@ -77,3 +78,40 @@ export function searchRelevantQAs(query: string, topK: number = 5): QAItem[] {
  *   return data;
  * }
  */
+
+/**
+ * 搜索課程文件
+ */
+export function searchCourseFiles(query: string, topK: number = 5): FileSearchResult[] {
+  return searchFiles(query, topK);
+}
+
+/**
+ * 合併QA和文件搜索結果，返回格式化的context
+ */
+export function buildRAGContext(query: string, qaTopK: number = 5, fileTopK: number = 3): {
+  context: string;
+  qaSources: QAItem[];
+  fileSources: FileSearchResult[];
+} {
+  // 搜索QA數據庫
+  const qaResults = searchRelevantQAs(query, qaTopK);
+  
+  // 搜索課程文件
+  const fileResults = searchCourseFiles(query, fileTopK);
+  
+  // 構建context
+  const qaContext = qaResults
+    .map((qa) => `Q: ${qa.question}\nA: ${qa.answer}`)
+    .join("\n\n");
+  
+  const fileContext = formatFileSearchResults(fileResults);
+  
+  const context = [qaContext, fileContext].filter(Boolean).join("\n\n");
+  
+  return {
+    context,
+    qaSources: qaResults,
+    fileSources: fileResults,
+  };
+}
