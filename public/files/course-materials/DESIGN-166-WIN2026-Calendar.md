@@ -15,16 +15,16 @@
 - Photography Basics, Photographic Lighting
 
 ### DUE DATES
-- **Read Week 1 Files** before 10am on Fri 1.10
-- **Project 1 Design Brief** due before class on Mon 1.12
-- **Project 1 Mindmap** before class on Mon 1.12
+- **Read Week 1 Files** before 10am on Friday, January 10, 2026
+- **Project 1 Design Brief** due before class on Monday, January 12, 2026
+- **Project 1 Mindmap** before class on Monday, January 12, 2026
 
 ### SMALL GROUP DISCUSSION
 - Exchange name/phone # with two peers
 - Pair activity: Photo mapping exercise for Project 1
 
 ### SPECIAL
-- **DUE AT 5PM ON FRI 1.09:** Syllabus Size, Student Info Survey
+- **DUE AT 5PM ON FRIDAY, JANUARY 9, 2026:** Syllabus Size, Student Info Survey
 
 ---
 
@@ -38,7 +38,7 @@
 - Literal vs. Metaphor: CHENG
 - Illustration + Collage: CHENG
 
-### DUE BEFORE CLASS ON WED 1.14
+### DUE BEFORE CLASS ON WEDNESDAY, JANUARY 14, 2026
 - Review Photoshop/Affinity/Tutorials
 - Read Week 1 Readings
 - Read Printing and Mounting Your Cover
@@ -56,7 +56,7 @@
 ### HOLIDAY
 - **MLK HOLIDAY**
 
-### DUE BEFORE CLASS ON WED 1.21
+### DUE BEFORE CLASS ON WEDNESDAY, JANUARY 21, 2026
 - Read Week 1 Readings
 - Review: Illustrator/Affinity Designer Tutorials
 - Watch the Mounting Demo Video
@@ -82,7 +82,7 @@
 - Type Ideas
 - Awage Self-Reflection on Project 1
 
-### DUE BEFORE CLASS ON WED 1.28
+### DUE BEFORE CLASS ON WEDNESDAY, JANUARY 28, 2026
 - Read Week 6 Readings
 
 ### BREAKOUT INTO CRITIQUE SECTIONS
@@ -92,14 +92,14 @@
 ### CRITIQUE #3: Final Cover Designs
 - Bring six 'hc11' covers, centered and mounted on black 12x14" Antigain paper
 - If you like, you can select your two best covers and turn them in at the end of class
-- If you want to refine them over the weekend, you can turn in your final two covers at the **START of lecture on Mon 2/2**
+- If you want to refine them over the weekend, you can turn in your final two covers at the **START of lecture on Monday, February 2, 2026**
 - **DUE AT NOON:** Upload a grag of each cover to this Canvas Assignment
 
 ---
 
 ## Week 5: Feb 2 - Feb 6
 
-### DUE AT START OF CLASS @ 12:30PM
+### DUE AT START OF CLASS @ 12:30PM ON MONDAY, FEBRUARY 2, 2026
 - Submit Final Two Files for Grading on Canvas: Cover 1 and Cover 2
 - Submit Final Two Mounted Covers in person
 
@@ -108,19 +108,19 @@
 - Project Introduction: MOREN
 - **PLEASE READ Project 2: Design Brief**
 
-### DUE BEFORE CLASS ON WED 2.04
+### DUE BEFORE CLASS ON WEDNESDAY, FEBRUARY 4, 2026
 - Read Week 5 Readings
 
 ### LECTURE
 - Solution for Project 2
 - Awage Box Tutorials
 
-### BEFORE MON 2.09
+### BEFORE MONDAY, FEBRUARY 9, 2026
 - Watch the three-part video series
 - Watch #1-4 of this Final Jackson video series
 - Watch the video on corrugated cardboard
 
-### SPECIAL WED 2/4 Q+A SESSION
+### SPECIAL WEDNESDAY, FEBRUARY 4, 2026 Q+A SESSION
 - With VCD, IxD, and ID majors
 - 6:30-8PM, HIGH RH TBD
 
@@ -134,12 +134,12 @@
 
 ## Week 6: Feb 9 - Feb 13
 
-### DUE AT START OF CLASS @ 12:30PM
+### DUE AT START OF CLASS @ 12:30PM ON MONDAY, FEBRUARY 9, 2026
 - Bring Box Tutorial to lecture
 - Also upload images of your box tutorial boxes to Canvas by noon
 - Submit Self-Reflection on Project 1 on Canvas before class
 
-### DUE BEFORE CLASS ON WED 2.11
+### DUE BEFORE CLASS ON WEDNESDAY, FEBRUARY 11, 2026
 - Read Week 6 Readings
 
 ### LECTURE
@@ -178,7 +178,7 @@
 - Final Documentation Requirements: Photos, Net, Reflection
 - Introduce Project 3: IxD Journey Map and Design Solutions
 
-### DUE BEFORE CLASS ON WED 2.25
+### DUE BEFORE CLASS ON WEDNESDAY, FEBRUARY 25, 2026
 - Read Week 8 Readings
 
 ### BREAKOUT INTO CRITIQUE SECTIONS
@@ -198,7 +198,7 @@
 - Transforming insights from your journey map into "How Might We" Questions
 - **Project 3:** Final cardboard model + net documentation (if hand-drawn) due at lecture
 
-### DUE BEFORE CLASS ON WED 3.04
+### DUE BEFORE CLASS ON WEDNESDAY, MARCH 4, 2026
 - Read Week 9 Readings
 
 ### LECTURE

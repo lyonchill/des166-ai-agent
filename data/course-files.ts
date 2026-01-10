@@ -49,7 +49,7 @@ export const courseFiles: CourseFile[] = [
       {
         id: "file-calendar-2026-chunk-3",
         fileId: "file-calendar-2026",
-        content: "### DUE DATES\n- **Read Week 1 Files** before 10am on Fri 1.10\n- **Project 1 Design Brief** due before class on Mon 1.12\n- **Project 1 Mindmap** before class on Mon 1.12",
+        content: "### DUE DATES\n- **Read Week 1 Files** before 10am on Friday, January 10, 2026\n- **Project 1 Design Brief** due before class on Monday, January 12, 2026\n- **Project 1 Mindmap** before class on Monday, January 12, 2026",
         startIndex: 388,
         endIndex: 558,
       },
@@ -63,7 +63,7 @@ export const courseFiles: CourseFile[] = [
       {
         id: "file-calendar-2026-chunk-5",
         fileId: "file-calendar-2026",
-        content: "### SPECIAL\n- **DUE AT 5PM ON FRI 1.09:** Syllabus Size, Student Info Survey\n\n---",
+        content: "### SPECIAL\n- **DUE AT 5PM ON FRIDAY, JANUARY 9, 2026:** Syllabus Size, Student Info Survey\n\n---",
         startIndex: 679,
         endIndex: 762,
       },
@@ -84,7 +84,7 @@ export const courseFiles: CourseFile[] = [
       {
         id: "file-calendar-2026-chunk-8",
         fileId: "file-calendar-2026",
-        content: "### DUE BEFORE CLASS ON WED 1.14\n- Review Photoshop/Affinity/Tutorials\n- Read Week 1 Readings\n- Read Printing and Mounting Your Cover",
+        content: "### DUE BEFORE CLASS ON WEDNESDAY, JANUARY 14, 2026\n- Review Photoshop/Affinity/Tutorials\n- Read Week 1 Readings\n- Read Printing and Mounting Your Cover",
         startIndex: 1003,
         endIndex: 1138,
       },
@@ -112,7 +112,7 @@ export const courseFiles: CourseFile[] = [
       {
         id: "file-calendar-2026-chunk-12",
         fileId: "file-calendar-2026",
-        content: "### DUE BEFORE CLASS ON WED 1.21\n- Read Week 1 Readings\n- Review: Illustrator/Affinity Designer Tutorials\n- Watch the Mounting Demo Video",
+        content: "### DUE BEFORE CLASS ON WEDNESDAY, JANUARY 21, 2026\n- Read Week 1 Readings\n- Review: Illustrator/Affinity Designer Tutorials\n- Watch the Mounting Demo Video",
         startIndex: 1477,
         endIndex: 1616,
       },
@@ -147,7 +147,7 @@ export const courseFiles: CourseFile[] = [
       {
         id: "file-calendar-2026-chunk-17",
         fileId: "file-calendar-2026",
-        content: "### DUE BEFORE CLASS ON WED 1.28\n- Read Week 6 Readings",
+        content: "### DUE BEFORE CLASS ON WEDNESDAY, JANUARY 28, 2026\n- Read Week 6 Readings",
         startIndex: 2246,
         endIndex: 2303,
       },
@@ -161,7 +161,7 @@ export const courseFiles: CourseFile[] = [
       {
         id: "file-calendar-2026-chunk-19",
         fileId: "file-calendar-2026",
-        content: "### CRITIQUE #3: Final Cover Designs\n- Bring six 'hc11' covers, centered and mounted on black 12x14\" Antigain paper\n- If you like, you can select your two best covers and turn them in at the end of class\n- If you want to refine them over the weekend, you can turn in your final two covers at the **START of lecture on Mon 2/2**\n- **DUE AT NOON:** Upload a grag of each cover to this Canvas Assignment\n\n---",
+        content: "### CRITIQUE #3: Final Cover Designs\n- Bring six 'hc11' covers, centered and mounted on black 12x14\" Antigain paper\n- If you like, you can select your two best covers and turn them in at the end of class\n- If you want to refine them over the weekend, you can turn in your final two covers at the **START of lecture on Monday, February 2, 2026**\n- **DUE AT NOON:** Upload a grag of each cover to this Canvas Assignment\n\n---",
         startIndex: 2509,
         endIndex: 2916,
       },
@@ -175,7 +175,7 @@ export const courseFiles: CourseFile[] = [
       {
         id: "file-calendar-2026-chunk-21",
         fileId: "file-calendar-2026",
-        content: "### DUE AT START OF CLASS @ 12:30PM\n- Submit Final Two Files for Grading on Canvas: Cover 1 and Cover 2\n- Submit Final Two Mounted Covers in person",
+        content: "### DUE AT START OF CLASS @ 12:30PM ON MONDAY, FEBRUARY 2, 2026\n- Submit Final Two Files for Grading on Canvas: Cover 1 and Cover 2\n- Submit Final Two Mounted Covers in person",
         startIndex: 2942,
         endIndex: 3091,
       },
@@ -189,7 +189,7 @@ export const courseFiles: CourseFile[] = [
       {
         id: "file-calendar-2026-chunk-23",
         fileId: "file-calendar-2026",
-        content: "### DUE BEFORE CLASS ON WED 2.04\n- Read Week 5 Readings",
+        content: "### DUE BEFORE CLASS ON WEDNESDAY, FEBRUARY 4, 2026\n- Read Week 5 Readings",
         startIndex: 3215,
         endIndex: 3272,
       },
@@ -203,14 +203,14 @@ export const courseFiles: CourseFile[] = [
       {
         id: "file-calendar-2026-chunk-25",
         fileId: "file-calendar-2026",
-        content: "### BEFORE MON 2.09\n- Watch the three-part video series\n- Watch #1-4 of this Final Jackson video series\n- Watch the video on corrugated cardboard",
+        content: "### BEFORE MONDAY, FEBRUARY 9, 2026\n- Watch the three-part video series\n- Watch #1-4 of this Final Jackson video series\n- Watch the video on corrugated cardboard",
         startIndex: 3332,
         endIndex: 3479,
       },
       {
         id: "file-calendar-2026-chunk-26",
         fileId: "file-calendar-2026",
-        content: "### SPECIAL WED 2/4 Q+A SESSION\n- With VCD, IxD, and ID majors\n- 6:30-8PM, HIGH RH TBD",
+        content: "### SPECIAL WEDNESDAY, FEBRUARY 4, 2026 Q+A SESSION\n- With VCD, IxD, and ID majors\n- 6:30-8PM, HIGH RH TBD",
         startIndex: 3479,
         endIndex: 3567,
       },
@@ -231,14 +231,14 @@ export const courseFiles: CourseFile[] = [
       {
         id: "file-calendar-2026-chunk-29",
         fileId: "file-calendar-2026",
-        content: "### DUE AT START OF CLASS @ 12:30PM\n- Bring Box Tutorial to lecture\n- Also upload images of your box tutorial boxes to Canvas by noon\n- Submit Self-Reflection on Project 1 on Canvas before class",
+        content: "### DUE AT START OF CLASS @ 12:30PM ON MONDAY, FEBRUARY 9, 2026\n- Bring Box Tutorial to lecture\n- Also upload images of your box tutorial boxes to Canvas by noon\n- Submit Self-Reflection on Project 1 on Canvas before class",
         startIndex: 3951,
         endIndex: 4147,
       },
       {
         id: "file-calendar-2026-chunk-30",
         fileId: "file-calendar-2026",
-        content: "### DUE BEFORE CLASS ON WED 2.11\n- Read Week 6 Readings",
+        content: "### DUE BEFORE CLASS ON WEDNESDAY, FEBRUARY 11, 2026\n- Read Week 6 Readings",
         startIndex: 4147,
         endIndex: 4204,
       },
@@ -301,7 +301,7 @@ export const courseFiles: CourseFile[] = [
       {
         id: "file-calendar-2026-chunk-39",
         fileId: "file-calendar-2026",
-        content: "### DUE BEFORE CLASS ON WED 2.25\n- Read Week 8 Readings",
+        content: "### DUE BEFORE CLASS ON WEDNESDAY, FEBRUARY 25, 2026\n- Read Week 8 Readings",
         startIndex: 5451,
         endIndex: 5508,
       },
@@ -336,7 +336,7 @@ export const courseFiles: CourseFile[] = [
       {
         id: "file-calendar-2026-chunk-44",
         fileId: "file-calendar-2026",
-        content: "### DUE BEFORE CLASS ON WED 3.04\n- Read Week 9 Readings",
+        content: "### DUE BEFORE CLASS ON WEDNESDAY, MARCH 4, 2026\n- Read Week 9 Readings",
         startIndex: 6266,
         endIndex: 6323,
       },
