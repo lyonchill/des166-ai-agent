@@ -39,15 +39,17 @@ export default function ChatInterface() {
 
   const scrollToBottom = () => {
     setTimeout(() => {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+      if (messagesEndRef.current) {
+        messagesEndRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+      }
+    }, 150);
   };
 
   useEffect(() => {
     if (messages.length > 0) {
       scrollToBottom();
     }
-  }, [messages]);
+  }, [messages, isLoading]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -128,7 +130,7 @@ export default function ChatInterface() {
 
       {/* Messages Area - Only visible when messages exist */}
       {hasMessages && (
-        <div className="flex-1 min-h-0 overflow-y-auto px-4 sm:px-8 pb-[100px] sm:pb-[60px] overscroll-contain">
+        <div className="flex-1 min-h-0 overflow-y-auto px-4 sm:px-8 pb-[200px] sm:pb-[160px] overscroll-contain" style={{ WebkitOverflowScrolling: 'touch' }}>
           <div className="flex flex-col gap-3 sm:gap-4 max-w-[760px] mx-auto pt-4">
             {messages.map((message, index) => (
               <div
@@ -246,10 +248,12 @@ export default function ChatInterface() {
       )}
 
       {/* Input Container - Centered vertically when no messages */}
-      <div className={`${hasMessages ? 'fixed bottom-[70px] sm:bottom-[40px] left-0 right-0 pb-4 pt-4 sm:pt-8 px-4 sm:px-0 z-10' : 'flex-1 flex items-center justify-center overflow-y-auto'}`} style={hasMessages ? {
-        background: 'linear-gradient(to top, rgba(240, 247, 232, 0.95) 0%, rgba(232, 245, 240, 0.9) 50%, transparent 100%)'
+      <div className={`${hasMessages ? 'fixed bottom-0 left-0 right-0 z-20' : 'flex-1 flex items-center justify-center overflow-y-auto'}`} style={hasMessages ? {
+        background: 'linear-gradient(to top, rgba(240, 247, 232, 1) 0%, rgba(240, 247, 232, 0.98) 30%, rgba(232, 245, 240, 0.95) 60%, transparent 100%)',
+        backdropFilter: 'blur(8px)',
+        WebkitBackdropFilter: 'blur(8px)'
       } : {}}>
-        <div className={`flex flex-col gap-[24px] sm:gap-[32px] max-w-[760px] mx-auto w-full px-4 sm:px-8 ${!hasMessages ? 'py-6 sm:py-8' : ''}`}>
+        <div className={`flex flex-col gap-[24px] sm:gap-[32px] max-w-[760px] mx-auto w-full px-4 sm:px-8 ${!hasMessages ? 'py-6 sm:py-8' : 'pt-3 sm:pt-4 pb-0'}`}>
           {/* Title - Only visible when no messages */}
           {!hasMessages && (
             <div className="flex items-center justify-center gap-[5px] px-4">
@@ -371,31 +375,67 @@ export default function ChatInterface() {
             </div>
           )}
         </div>
+
+        {/* Footer - Inside input container when messages exist */}
+        {hasMessages && (
+          <div className="py-2 sm:py-2 px-4" style={{
+            background: 'rgba(240, 247, 232, 1)',
+            backdropFilter: 'blur(4px)',
+            WebkitBackdropFilter: 'blur(4px)'
+          }}>
+            <p 
+              className="font-normal text-[9px] sm:text-[10px] text-center leading-tight"
+              style={{
+                fontFamily: 'var(--font-manrope), sans-serif',
+                fontWeight: 400,
+                color: '#56637e'
+              }}
+            >
+              <span>This is an AI assistant. For official information, please consult your </span>
+              <a
+                href="https://art.washington.edu/advising"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-[#008fb4]"
+                style={{ textDecoration: 'underline', textUnderlinePosition: 'from-font' }}
+              >
+                academic advisor
+              </a>
+              <span> and the team of DESIGN 166 instructors.</span>
+            </p>
+          </div>
+        )}
       </div>
 
-      {/* Footer - Fixed at bottom */}
-      <div className="fixed bottom-0 left-0 right-0 py-3 sm:py-4 bg-transparent z-10 px-4">
-        <p 
-          className="font-normal text-[9px] sm:text-[10px] text-center leading-tight"
-          style={{
-            fontFamily: 'var(--font-manrope), sans-serif',
-            fontWeight: 400,
-            color: '#56637e'
-          }}
-        >
-          <span>This is an AI assistant. For official information, please consult your </span>
-          <a
-            href="https://art.washington.edu/advising"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="underline text-[#008fb4]"
-            style={{ textDecoration: 'underline', textUnderlinePosition: 'from-font' }}
+      {/* Footer - Only visible when no messages */}
+      {!hasMessages && (
+        <div className="fixed bottom-0 left-0 right-0 py-2 sm:py-2 z-30 px-4" style={{
+          background: 'rgba(240, 247, 232, 1)',
+          backdropFilter: 'blur(4px)',
+          WebkitBackdropFilter: 'blur(4px)'
+        }}>
+          <p 
+            className="font-normal text-[9px] sm:text-[10px] text-center leading-tight"
+            style={{
+              fontFamily: 'var(--font-manrope), sans-serif',
+              fontWeight: 400,
+              color: '#56637e'
+            }}
           >
-            academic advisor
-          </a>
-          <span> and the team of DESIGN 166 instructors.</span>
-        </p>
-      </div>
+            <span>This is an AI assistant. For official information, please consult your </span>
+            <a
+              href="https://art.washington.edu/advising"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-[#008fb4]"
+              style={{ textDecoration: 'underline', textUnderlinePosition: 'from-font' }}
+            >
+              academic advisor
+            </a>
+            <span> and the team of DESIGN 166 instructors.</span>
+          </p>
+        </div>
+      )}
     </div>
   );
 }
