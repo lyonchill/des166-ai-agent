@@ -40,6 +40,10 @@ yarn-error.log*
 *.pdf
 DES166 Questions*.md
 
+# interaction logs (keep structure but ignore data)
+data/interactions/*.json
+!data/interactions/.gitkeep
+
 # script output files
 scripts/*.txt
 scripts/categorized-*.txt

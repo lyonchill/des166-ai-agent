@@ -38,11 +38,15 @@ export default function ChatInterface() {
   }, []);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
   };
 
   useEffect(() => {
-    scrollToBottom();
+    if (messages.length > 0) {
+      scrollToBottom();
+    }
   }, [messages]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -111,7 +115,7 @@ export default function ChatInterface() {
       {/* Title - Moves to top when messages exist */}
       {hasMessages && (
         <div 
-          className="flex items-center justify-center gap-[5px] pt-[60px] sm:pt-[80px] pb-4 sm:pb-6 transition-all duration-300 px-4"
+          className="flex-shrink-0 flex items-center justify-center gap-[5px] pt-[60px] sm:pt-[80px] pb-4 sm:pb-6 transition-all duration-300 px-4"
         >
           <h2 
             className="font-medium text-[#160211] text-[24px] sm:text-[32px] text-center whitespace-nowrap"
@@ -124,7 +128,7 @@ export default function ChatInterface() {
 
       {/* Messages Area - Only visible when messages exist */}
       {hasMessages && (
-        <div className="flex-1 overflow-y-auto px-4 sm:px-8 pb-[100px] sm:pb-[60px] overscroll-contain">
+        <div className="flex-1 min-h-0 overflow-y-auto px-4 sm:px-8 pb-[100px] sm:pb-[60px] overscroll-contain">
           <div className="flex flex-col gap-3 sm:gap-4 max-w-[760px] mx-auto pt-4">
             {messages.map((message, index) => (
               <div
