@@ -17,7 +17,15 @@ export async function POST(request: NextRequest) {
     }
 
     // Search for relevant QAs and course files
-    const { context, qaSources, fileSources } = buildRAGContext(message, 5, 3);
+    // 如果查詢包含 "deadline"、"future"、"all" 等關鍵詞，增加搜索結果數量
+    const queryLower = message.toLowerCase();
+    const needsMoreResults = queryLower.includes("deadline") || 
+                             queryLower.includes("future") || 
+                             queryLower.includes("all") ||
+                             queryLower.includes("全部") ||
+                             queryLower.includes("所有");
+    const fileTopK = needsMoreResults ? 10 : 3; // 增加文件搜索結果數量
+    const { context, qaSources, fileSources } = buildRAGContext(message, 5, fileTopK);
 
     // Extract links from relevant QAs
     const qaLinks = qaSources
@@ -39,8 +47,21 @@ export async function POST(request: NextRequest) {
       ...fileLinks,
     ];
 
+    // Get current date for deadline filtering
+    const now = new Date();
+    const currentDateStr = now.toLocaleDateString('en-US', { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric',
+      timeZone: 'America/Los_Angeles' // Pacific Time for UW
+    });
+    const currentDateISO = now.toISOString().split('T')[0]; // YYYY-MM-DD format
+
     // Create the system prompt
     const systemPrompt = `You are a helpful AI assistant for the UW DES166 course. Your role is to answer student questions based on the course's FAQ information and course materials.
+
+CURRENT DATE: ${currentDateStr} (${currentDateISO})
 
 Based on the following information (including QA records and course file excerpts), answer the student's question:
 
@@ -55,6 +76,11 @@ Guidelines:
 6. Keep responses concise but informative
 7. Do not use Markdown formatting (no **bold** or other markdown syntax) - use plain text only
 8. IMPORTANT: When providing dates, use the EXACT dates from the course materials. Dates are in format "Day, Month DD, YYYY" (e.g., "Monday, January 12, 2026"). Never guess or approximate dates - always use the exact dates provided in the course calendar.
+9. CRITICAL FOR DEADLINE QUESTIONS: 
+   - When asked about "future deadlines" or "upcoming deadlines", ONLY list deadlines that are AFTER the current date (${currentDateStr})
+   - When asked about "all deadlines" for a project, list ALL deadlines mentioned in the course materials, but clearly indicate which ones are past (before ${currentDateStr}) and which are upcoming (after ${currentDateStr})
+   - Always check ALL weeks and sections in the course calendar to find ALL related deadlines - don't miss any
+   - For Project 1, check Week 1, Week 2, Week 3, Week 4, and Week 5 sections thoroughly
 
 Remember: You are an assistant to help students, but for important decisions they should always consult with their academic advisor.`;
 
@@ -77,7 +103,7 @@ Remember: You are an assistant to help students, but for important decisions the
         const model = genAI.getGenerativeModel({ 
           model: modelName,
           generationConfig: {
-            temperature: 0.7,
+      temperature: 0.7,
             maxOutputTokens: 2000, // 增加到2000以支持完整回答
             topP: 0.95,
             topK: 40,

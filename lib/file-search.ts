@@ -53,9 +53,18 @@ export function searchCourseFiles(
 
     // 如果有匹配的chunks，添加到結果中
     if (matchedChunks.length > 0) {
+      // 如果查詢包含 "deadline"、"future"、"all" 等關鍵詞，返回更多chunks
+      const queryLower = query.toLowerCase();
+      const needsMoreChunks = queryLower.includes("deadline") || 
+                              queryLower.includes("future") || 
+                              queryLower.includes("all") ||
+                              queryLower.includes("全部") ||
+                              queryLower.includes("所有");
+      const maxChunksPerFile = needsMoreChunks ? 10 : 3; // 增加每個文件的chunks數量
+      
       results.push({
         file,
-        chunks: matchedChunks.slice(0, 3), // 每個文件最多返回3個最相關的chunks
+        chunks: matchedChunks.slice(0, maxChunksPerFile),
         score: totalScore,
       });
     }
