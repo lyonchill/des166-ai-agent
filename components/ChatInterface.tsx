@@ -47,7 +47,7 @@ export default function ChatInterface() {
 
   useEffect(() => {
     if (messages.length > 0) {
-      scrollToBottom();
+    scrollToBottom();
     }
   }, [messages, isLoading]);
 
@@ -174,16 +174,16 @@ export default function ChatInterface() {
                       {message.sources && message.sources.map((source, idx) => {
                         if (typeof source === "string") {
                           return (
-                            <a
-                              key={idx}
-                              href={source}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-[10px] sm:text-xs underline block opacity-75 hover:opacity-100 text-[#008fb4] break-all"
-                              style={{ fontFamily: 'var(--font-manrope), sans-serif', fontWeight: 400 }}
-                            >
-                              {source}
-                            </a>
+                        <a
+                          key={idx}
+                          href={source}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-[10px] sm:text-xs underline block opacity-75 hover:opacity-100 text-[#008fb4] break-all"
+                          style={{ fontFamily: 'var(--font-manrope), sans-serif', fontWeight: 400 }}
+                        >
+                          {source}
+                        </a>
                           );
                         } else if (source.type === "file") {
                           return (
@@ -419,27 +419,27 @@ export default function ChatInterface() {
           backdropFilter: 'blur(4px)',
           WebkitBackdropFilter: 'blur(4px)'
         }}>
-          <p 
-            className="font-normal text-[9px] sm:text-[10px] text-center leading-tight"
-            style={{
-              fontFamily: 'var(--font-manrope), sans-serif',
-              fontWeight: 400,
-              color: '#56637e'
-            }}
+        <p 
+          className="font-normal text-[9px] sm:text-[10px] text-center leading-tight"
+          style={{
+            fontFamily: 'var(--font-manrope), sans-serif',
+            fontWeight: 400,
+            color: '#56637e'
+          }}
+        >
+          <span>This is an AI assistant. For official information, please consult your </span>
+          <a
+            href="https://art.washington.edu/advising"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-[#008fb4]"
+            style={{ textDecoration: 'underline', textUnderlinePosition: 'from-font' }}
           >
-            <span>This is an AI assistant. For official information, please consult your </span>
-            <a
-              href="https://art.washington.edu/advising"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline text-[#008fb4]"
-              style={{ textDecoration: 'underline', textUnderlinePosition: 'from-font' }}
-            >
-              academic advisor
-            </a>
+            academic advisor
+          </a>
             <span> and the team of DESIGN 166 instructors.</span>
-          </p>
-        </div>
+        </p>
+      </div>
       )}
     </div>
   );
